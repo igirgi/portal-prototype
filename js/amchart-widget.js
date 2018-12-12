@@ -13,9 +13,9 @@ var chart = am4core.createFromConfig(
   },
   events:{
 	"zoomlevelchanged": function(ev){
-		var q = this;
-		var e = ev;
-		console.log(chart.zoomLevel+"    "+chart.data.length)
+		// var q = this;
+		// var e = ev;
+		// console.log(chart.zoomLevel+"    "+chart.data.length)
 	}
   },
   // Create polygon series
@@ -26,8 +26,9 @@ var chart = am4core.createFromConfig(
     "useGeodata": true,
     "exclude": ["AQ"], // exclude Antarctida
 
-  },
-  { //MapImageSeries
+  }
+  ,
+  { //картинки
     "id": "imgs",
     "type": "MapImageSeries", 	
 	"mapImages":{
@@ -50,7 +51,58 @@ var chart = am4core.createFromConfig(
 			}
 		]
 	}
+  }
+	,
+  { //пирожки-ореолы вокруг картинок
+    "id": "oreolas",
+    "type": "MapImageSeries", 	
+	"mapImages":{
+		"propertyFields": {
+			"latitude": "lat",
+			"longitude": "lon",
+		},
+		"tooltipText": "{name}",
+		"nonScaling": true,
+		"children":[
+			{
+				"type": "PieChart",
+				"width": 50,
+				"height": 50,
+				"horizontalCenter": "middle",
+				"verticalCenter": "middle",
+				"innerRadius": "60%",
+				"series": [{
+					"type": "PieSeries",
+					"dataFields": {
+						"value": "value",
+						"category": "category"
+					},
+					"labels":{disabled: true},
+					"ticks": {disabled: true},
+					"slices": {tooltipText: ""}
+				}],
+				"adapter":{
+					"data": function(data, target) {
+						return [{
+							"category": "Category #1",
+							"value": Math.floor(Math.random() * 300) + 20
+							}, {
+							"category": "Category #2",
+							"value": Math.floor(Math.random() * 300) + 20
+							}, {
+							"category": "Category #3",
+							"value": Math.floor(Math.random() * 300) + 20
+							}, {
+							"category": "Category #4",
+							"value": Math.floor(Math.random() * 300) + 20
+						}];  
+					}
+				}
+				
+			}
+		]
 	}
+	}	
   ],
 
   // Add zoom control
@@ -62,5 +114,3 @@ var chart = am4core.createFromConfig(
 }
 
 ,"chartdiv", am4maps.MapChart);
-
-var cD= chart.series.values[1];

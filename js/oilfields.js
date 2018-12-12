@@ -13,9 +13,9 @@ var oilfields = [
 ,{lat:61.215436, lon:72.826109, name:"Усть-Балыкское месторождение","img": "images/derrick.jpg","w": 30,"h": 30, "z": 12}
 ]
 
-
-cD.data = oilfields
-
+chart.series.values[1].data = oilfields
+chart.series.values[2].data = oilfields
+/*
 var fieldPieSeries = chart.series.push(new am4maps.MapImageSeries());
 var pieTemplate = fieldPieSeries.mapImages.template;
 pieTemplate.propertyFields.latitude = "lat";
@@ -42,8 +42,6 @@ pieChartTemplate.adapter.add("data", function(data, target) {
 pieChartTemplate.width = 50;
 pieChartTemplate.height = 50;
 pieChartTemplate.padding(0, 0, 0, 0);
-pieChartTemplate.chartContainer.maxHeight = 20;
-pieChartTemplate.chartContainer.maxWidth = 20;
 pieChartTemplate.horizontalCenter = "middle";
 pieChartTemplate.verticalCenter = "middle";
 
@@ -56,3 +54,4 @@ pieSeriesTemplate.labels.template.disabled = true;
 pieSeriesTemplate.ticks.template.disabled = true;
 
 fieldPieSeries.data = oilfields;
+*/
