@@ -1,20 +1,42 @@
 
-var oilfields = [
-{lat:61.170210, lon:76.735759, name:"Самотлорское месторождение","img": "images/derrick.jpg","w": 30,"h": 30, "z": 12}
-,{lat:63.228871, lon:70.630984, name:"Приобское месторождение","img": "images/derrick.jpg","w": 30,"h": 30, "z": 12}
-,{lat:59.773989, lon:71.750712, name:"Салымское месторождение","img": "images/derrick.jpg","w": 30,"h": 30, "z": 12}
-,{lat:60.770970, lon:72.823433, name:"Мамонтовское месторождение","img": "images/derrick.jpg","w": 30,"h": 30, "z": 12}
-,{lat:50.880739, lon:142.467392, name:"Сахалин-5 месторождение","img": "images/derrick.jpg","w": 30,"h": 30, "z": 12}
-,{lat:44.456643, lon:50.655297, name:"Курмангазы месторождение","img": "images/derrick.jpg","w": 30,"h": 30, "z": 12}
-,{lat:60.310998, lon:69.0, name:"Приразломное месторождение","img": "images/derrick.jpg","w": 30,"h": 30, "z": 12}
-,{lat:67.806708, lon:83.552957, name:"Ванкорское месторождение","img": "images/derrick.jpg","w": 30,"h": 30, "z": 12}
-,{lat:60.432888, lon:96.249800, name:"Юрубчено тохомское месторождение","img": "images/derrick.jpg","w": 30,"h": 30, "z": 12}
-,{lat:60.635639, lon:107.851504, name:"Савостьяновское месторождение","img": "images/derrick.jpg","w": 30,"h": 30, "z": 12}
-,{lat:61.215436, lon:72.826109, name:"Усть-Балыкское месторождение","img": "images/derrick.jpg","w": 30,"h": 30, "z": 12}
+var od = [
+{t:"field", lat:61.170210, lon:76.735759, name:"Самотлорское месторождение","z": 12}
+,{t:"field", lat:63.228871, lon:70.630984, name:"Приобское месторождение","z": 12}
+,{t:"field", lat:59.773989, lon:71.750712, name:"Салымское месторождение", "z": 12}
+,{t:"field", lat:60.770970, lon:72.823433, name:"Мамонтовское месторождение", "z": 12}
+,{t:"field", lat:50.880739, lon:142.467392, name:"Сахалин-5 месторождение", "z": 12}
+,{t:"field", lat:44.456643, lon:50.655297, name:"Курмангазы месторождение", "z": 12}
+,{t:"field", lat:60.310998, lon:69.0, name:"Приразломное месторождение", "z": 12}
+,{t:"field", lat:67.806708, lon:83.552957, name:"Ванкорское месторождение", "z": 12}
+,{t:"field", lat:60.432888, lon:96.249800, name:"Юрубчено тохомское месторождение", "z": 12}
+,{t:"field", lat:60.635639, lon:107.851504, name:"Савостьяновское месторождение", "z": 12}
+,{t:"field", lat:61.215436, lon:72.826109, name:"Усть-Балыкское месторождение", "z": 12}
 ]
 
-chart.series.values[1].data = oilfields
-chart.series.values[2].data = oilfields
+var derricks = [], item ={};
+for(var i=0; i<od.length; i++){
+	var q = Math.floor(Math.random()*7 + 2);
+	Object.assign(item,od[i]);
+	while(q-- > 0){		
+		item.t = "derrick";
+		item.name = "Скважина №"+q+""+i;
+		item.lon = item.lon + Math.random()*3.5 - 1.5;
+		item.lat = item.lat + Math.random()*3.5 - 1.5;
+		item.z = 3;
+		var it = {};
+		Object.assign(it,item);
+		derricks.push(it);
+	}		
+}
+
+od = od.concat(derricks);
+ 
+od = _each(od, function(v){
+	v.img="images/"+v.t+".jpg";
+});
+
+
+
 /*
 var fieldPieSeries = chart.series.push(new am4maps.MapImageSeries());
 var pieTemplate = fieldPieSeries.mapImages.template;
@@ -53,5 +75,5 @@ pieSeriesTemplate.dataFields.value = "value";
 pieSeriesTemplate.labels.template.disabled = true;
 pieSeriesTemplate.ticks.template.disabled = true;
 
-fieldPieSeries.data = oilfields;
+fieldPieSeries.data = od;
 */

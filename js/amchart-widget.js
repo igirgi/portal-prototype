@@ -1,7 +1,7 @@
 am4core.useTheme(am4themes_kelly);
 am4core.useTheme(am4themes_animated);
 
-
+var zLevel = 3, cdata = _flter(od, function(v){ return v.z == 12; });
 var chart = am4core.createFromConfig(
 {
   "geodata": "worldHigh",
@@ -13,9 +13,17 @@ var chart = am4core.createFromConfig(
   },
   events:{
 	"zoomlevelchanged": function(ev){
-		// var q = this;
-		// var e = ev;
-		// console.log(chart.zoomLevel+"    "+chart.data.length)
+		var z = chart.zoomLevel;
+		if(zLevel >= 12 && z <12){ //zoom out
+		  cdata = _flter(od, function(v){ return v.z == 12; });
+		  s1.data = cdata
+		  s2.data = cdata
+		}else if(zLevel <= 12 && z > 12){ 
+		  cdata = _flter(od, function(v){ return v.z < 12; });			  
+  		  s1.data = cdata
+		  s2.data = cdata
+		}
+		zLevel = z;
 	}
   },
   // Create polygon series
@@ -36,15 +44,17 @@ var chart = am4core.createFromConfig(
 			"latitude": "lat",
 			"longitude": "lon",
 		},
-		"tooltipText": "{name}",
+		"tooltipHTML": "<center><strong>{name}</center></strong>"
+			+"<img src='images/{t}Stat.jpg'>"
+		,
 		"nonScaling": true,
 		"children":[
 			{
 				type: "Image",
+				"width": 30,
+				"height": 30,				
 				"propertyFields":{
-					"href": "img",
-					"width": "w",
-					"height": "h"
+					"href": "img"
 				},
 				"horizontalCenter": "middle",
 				"verticalCenter": "middle"
@@ -85,17 +95,14 @@ var chart = am4core.createFromConfig(
 					"data": function(data, target) {
 						return [{
 							"category": "Category #1",
-							"value": Math.floor(Math.random() * 300) + 20
+							"value": Math.floor(Math.random() * 300)
 							}, {
 							"category": "Category #2",
-							"value": Math.floor(Math.random() * 300) + 20
+							"value": Math.floor(Math.random() * 300) + 100
 							}, {
 							"category": "Category #3",
-							"value": Math.floor(Math.random() * 300) + 20
-							}, {
-							"category": "Category #4",
-							"value": Math.floor(Math.random() * 300) + 20
-						}];  
+							"value": Math.floor(Math.random() * 300) + 200
+							}];  
 					}
 				}
 				
@@ -114,3 +121,10 @@ var chart = am4core.createFromConfig(
 }
 
 ,"chartdiv", am4maps.MapChart);
+
+var s1 = chart.series.values[1];
+var s2 = chart.series.values[2];
+s1.data = cdata
+s2.data = cdata
+
+
