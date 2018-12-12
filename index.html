@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <meta charset="utf-8">
+<meta charset="utf-8">
+<link rel="shortcut icon" href="./images/favicon.ico">
 <link rel="stylesheet" type="text/css" href="ddlevelsfiles/ddlevelsmenu-base.css" />
 <link rel="stylesheet" type="text/css" href="ddlevelsfiles/ddlevelsmenu-topbar.css" />
 <link rel="stylesheet" type="text/css" href="ddlevelsfiles/ddlevelsmenu-sidebar.css" />
@@ -25,12 +26,17 @@
   height: 0px;
   z-index: 1000;
 }
-
+#logoimg {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+}
 </style>
 
 <script src="js/core.js"></script>
 <script src="js/charts.js"></script>
 <script src="js/maps.js"></script>
+<script src="js/themes/kelly.js"></script>
 <script src="js/themes/animated.js"></script>
 <script src="js/geodata/worldHigh.js"></script>
 
@@ -40,15 +46,17 @@
 <div id="chartdiv">Это я, карта</div>
 
 <script src="js/amchart-widget.js"></script>
+<script src="js/oilfields.js"></script>
 
 <div id="ddtopmenubar" class="underlinemenu">
+<img id="logoimg" src="images/logo.gif" />
 <ul>
 <li><a href="#" rel="submenu0" >Оперативные сводки</a></li>
 <li><a href="#" rel="submenu1">Подразделения</a></li>
 <li><a href="#" rel="submenu2">События</a></li>
 <li><a href="#" rel="submenu3">Новости</a></li>
 <li><a href="#">База знаний</a></li>
-<li><a href="#">Обратная связь</a></li>
+<li><a href="#">Контакты</a></li>
 </ul>
 </div>
 
@@ -58,6 +66,23 @@
 
 <script type="text/javascript">
 ddlevelsmenu.setup("ddtopmenubar", "topbar") //ddlevelsmenu.setup("mainmenuid", "topbar")
+var nd = [
+		{
+		  "lat": 40.416775,
+		  "lon": -3.703790,
+		  "img": "https://www.amcharts.com/lib/images/weather/animated/rainy-1.svg",
+		  "w": 132,
+		  "h": 132,
+		  "name": "Madrid: +22C"
+		}, {
+		  "lat": 48.856614,
+		  "lon": 2.352222,
+		  "img": "https://www.amcharts.com/lib/images/weather/animated/thunder.svg",
+		  "w": 32,
+		  "h": 32,
+		  "name": "Paris: +18C"
+		}	
+]
 </script>
 
 <!--HTML for mobile menu toggler when mobile version of menu is activated. Place anywhere on your page. Also see: http://www.dynamicdrive.com/dynamicindex1/ddlevelsmenu/index.htm#mobile-->
@@ -67,8 +92,8 @@ ddlevelsmenu.setup("ddtopmenubar", "topbar") //ddlevelsmenu.setup("mainmenuid", 
 
 
 <ul id="submenu0" class="ddsubmenustyle">
-<li><a href="#">Item 1a</a></li>
-<li><a href="#">Item 2a</a></li>
+<li><a href="#" onclick="cD.data=nd;">Загрузить данные</a></li>
+<li><a href="#" onclick="cD.data=oilfields;">Пирожки</a></li>
 <li><a href="#">Item Folder 3a</a>
   <ul>
   <li><a href="#">Sub Item 3.1a</a></li>
