@@ -1,28 +1,42 @@
-/* ######### Thick Underline Menu CSS ######### */
-    
-.underlinemenu{
-font-weight: bold;
-width: 100%;
-}
+/* ######### Matt Black Strip Main Menu Bar CSS ######### */
 
-.underlinemenu ul{
-padding: 6px 0 7px 0; /*6px should equal top padding of "ul li a" below, 7px should equal bottom padding + bottom border of "ul li a" below*/
+.mattblackmenu ul{
 margin: 0;
-text-align: right; //set value to "left", "center", or "right"*/
+padding: 0;
+font: bold 12px Verdana;
+list-style-type: none;
+border-bottom: 1px solid gray;
+background: #414141;
+overflow: hidden;
+float:right;
 }
 
-.underlinemenu ul li{
+.mattblackmenu li{
 display: inline;
+margin: 0;
 }
 
-.underlinemenu ul li a{
-color: #494949;
-padding: 6px 3px 4px 3px; /*top padding is 6px, bottom padding is 4px*/
-margin-right: 20px;
+.mattblackmenu li a{
+float: left;
+display: block;
 text-decoration: none;
-border-bottom: 3px solid gray; /*bottom border is 3px*/
+margin: 0;
+padding: 6px 8px; /*padding inside each tab*/
+border-right: 1px solid white; /*right divider between tabs*/
+color: white;
+background: #414141;
 }
 
-.underlinemenu ul li a:hover, .underlinemenu ul li a.selected{
-border-bottom-color: black;
+.mattblackmenu li a:visited{
+color: white;
 }
+
+.mattblackmenu li a:hover{
+background: black; /*background of tabs for hover state */
+}
+
+.mattblackmenu a.selected{
+background: black; /*background of tab with "selected" class assigned to its LI */
+}
+
+ 
