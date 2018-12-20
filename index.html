@@ -7,70 +7,10 @@
 <link rel="stylesheet" type="text/css" href="ddlevelsfiles/ddlevelsmenu-topbar.css" />
 <link rel="stylesheet" type="text/css" href="ddlevelsfiles/ddlevelsmenu-sidebar.css" />
 <link rel="stylesheet" type="text/css" href="ddlevelsfiles/ddlevelsmenu-mobile.css" />
+<link rel="stylesheet" type="text/css" href="fa/css/all.css" />
+<link rel="stylesheet" type="text/css" href="gry.css" />
 
 <script type="text/javascript" src="ddlevelsfiles/ddlevelsmenu.js"></script>
-<style>
-html, body {
-	padding: 0;
-	margin:0;
-}
-#chartdiv {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: 10;
-}
-#chartframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 100;
-    display: block;       /* iframes are inline by default */
-    background: #000;
-    border: none;         /* Reset default border */
-    height: 100vh;        /* Viewport-relative units */
-    width: 100vw;  
-    visibility:hidden;	
-}
-
-#ddtopmenubar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 0px;
-  z-index: 1000;
-}
-#logoimg {
-  position: absolute;
-  top: 0px;
-  left: 15px;
-  z-index: 900;
-}
-.icon {
-    position: absolute;
-	z-index:120;
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
-    margin: 0px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
-	cursor: pointer;
-}
-.shine {
-    height: 30px;
-    width: 50px;
-    box-shadow: inset 0px 2px 1px rgba(255, 255, 255, 0.7);
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-    border-bottom-right-radius: 100px 40px;
-    border-bottom-left-radius: 100px 40px;
-}
-
-</style>
-
 <script src="js/core.js"></script>
 <script src="js/charts.js"></script>
 <script src="js/maps.js"></script>
@@ -82,7 +22,48 @@ html, body {
 <body>
 
 <div id="chartdiv">Это я, карта</div>
-<iframe id="chartframe" src="slides/slides.html"></iframe>
+<iframe id="overname" allowtransparency="true" src="overname.html?name=Самотлор" style="left: 0px;"></iframe>
+<iframe id="overfield" allowtransparency="true" src="overfield.html" style="left: 0px;"></iframe>
+<iframe id="overd" allowtransparency="true" src="overd.html" style="left: 0px;"></iframe>
+<iframe id="assist" allowtransparency="true"  style="left: 0px;"></iframe>
+
+<div id="detaildiv">
+  <div id="detailheader">
+	<div id="itemNamediv">Самотлорское месторождение</div>
+<div id="palette">
+	<div class="icon small red">
+		<i class="far fa-tachometer"></i>
+		<span class="tooltiptext">Оперативное управления</span>
+	</div>
+	<div class="icon small-wide orange">
+		<i class="far fa-cogs"></i>
+		<span class="tooltiptext">Паспорт объекта</span>
+	</div>
+	<div class="icon small purple">
+		<i class="far fa-cubes"></i>
+		<span class="tooltiptext">Архив НИР</span>
+	</div><br>
+	<div class="icon small-wide blue-nav">
+		<i class="far fa-server"></i>
+		<!-- span class="tooltiptext">Отчёты</span -->
+	</div>
+	<div class="icon small yellow">
+		<i class="far fa-tags"></i>
+		<span class="tooltiptext">Паспорт объекта</span>
+	</div>
+	<div class="icon small red-light">
+		<i class="far fa-link"></i>
+		<span class="tooltiptext">Паспорт объекта</span>
+	</div>
+	
+
+</div>
+	
+  </div>	
+  <iframe id="detailframe" src="slides/slides.html"></iframe>
+</div>
+
+
 <script src="js/gry.js"></script>
 <script src="js/oilfields.js"></script>
 <script src="js/amchart-widget.js"></script>
@@ -90,7 +71,7 @@ html, body {
 
 <div id="ddtopmenubar" class="mattblackmenu">
 <ul>
-<li><a href="#" rel="submenu0" >Оперативные сводки</a></li>
+<li><a href="#" rel="submenu0">Сводки</a></li>
 <li><a href="#" rel="submenu1">Подразделения</a></li>
 <li><a href="#" rel="submenu2">События</a></li>
 <li><a href="#" rel="submenu3">Новости</a></li>
@@ -103,15 +84,9 @@ html, body {
 <span></span>
 </a>
 <!-- img id="logoimg" src="images/logo2.gif" / -->
-
-<div class="icon" style="top:5px; left:20px; background-image: url(images/mapbtns.jpg);" 
-title="Интерактивная карта" onclick="document.getElementById('chartframe').style.visibility='hidden';document.getElementById('chartdiv').style.visibility='visible';"
->
-    <div class="shine" ></div>
-</div>
-<div class="icon" style="top:5px; left:90px; background-image: url(images/docbtns.jpg);" 
-title="Интерактивные документы" onclick="document.getElementById('chartframe').style.visibility='visible';document.getElementById('chartdiv').style.visibility='hidden';">
-    <div class="shine" ></div>
+<div style="top:10px; left:25px;position:absolute;z-index:120;">
+	<div class="icon big" style="background-image: url(images/docbtns.jpg);"  onclick="toggleIcon(this)"
+	</div>
 </div>
 <script type="text/javascript">
 ddlevelsmenu.setup("ddtopmenubar", "topbar") //ddlevelsmenu.setup("mainmenuid", "topbar")

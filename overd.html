@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+	<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+   overflow: hidden;
+  margin: 0;
+  color: #fff;
+}
+
+#chartdiv {
+  width: 100%;
+  height: 35vh;
+   background-color: #376;
+  margin-bottom: 1vh;
+}	
+#chartdiv2 {
+  width: 100%;
+  height: 35vh;
+   background-color: #376;
+  margin-bottom: 1vh;
+}	
+#chartdiv3 {
+  width: 100%;
+   background-color: #376;
+  height: 35vh;  
+}	
+</style>
+  </head>
+  <body>
+    <div id="chartdiv"></div>
+	<div id="chartdiv2"></div>
+	<div id="chartdiv3"></div>
+    <script src="js/core.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/themes/animated.js"></script>
+    <script>
+am4core.useTheme(am4themes_animated);
+
+var chart = am4core.create("chartdiv", am4charts.XYChart);
+
+
+chart.paddingRight = 30;
+chart.dateFormatter.inputDateFormat = "yyyy-MM-dd HH:mm";
+
+var colorSet = new am4core.ColorSet();
+
+chart.data = [
+	{ "name": "J", fromDate: "2018-01-01 08:00", toDate: "2018-01-01 10:00", color: colorSet.getIndex(0).brighten(0) },
+	{ "name": "J", fromDate: "2018-01-01 12:00", toDate: "2018-01-01 15:00", color: colorSet.getIndex(0).brighten(0.4) },
+	{ "name": "J", fromDate: "2018-01-01 15:30", toDate: "2018-01-01 21:30", color: colorSet.getIndex(0).brighten(0.8) },
+
+	{ "name": "e", fromDate: "2018-01-01 09:00", toDate: "2018-01-01 12:00", color: colorSet.getIndex(2).brighten(0) },
+	{ "name": "e", fromDate: "2018-01-01 13:00", toDate: "2018-01-01 17:00", color: colorSet.getIndex(2).brighten(0.4) },
+
+	{ "name": "P", fromDate: "2018-01-01 11:00", toDate: "2018-01-01 16:00", color: colorSet.getIndex(4).brighten(0) },
+	{ "name": "P", fromDate: "2018-01-01 16:00", toDate: "2018-01-01 19:00", color: colorSet.getIndex(4).brighten(0.4) },
+
+	{ "name": "M", fromDate: "2018-01-01 16:00", toDate: "2018-01-01 20:00", color: colorSet.getIndex(6).brighten(0) },
+	{ "name": "M", fromDate: "2018-01-01 20:30", toDate: "2018-01-01 24:00", color: colorSet.getIndex(6).brighten(0.4) },
+
+	{ "name": "Don", fromDate: "2018-01-01 13:00", toDate: "2018-01-01 24:00", color: colorSet.getIndex(8).brighten(0) }
+]
+
+var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "name";
+categoryAxis.renderer.grid.template.location = 0;
+categoryAxis.renderer.inversed = true;
+
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.dateFormatter.dateFormat = "yyyy-MM-dd HH:mm";
+dateAxis.renderer.minGridDistance = 70;
+dateAxis.baseInterval = { count: 30, timeUnit: "minute" };
+dateAxis.max = new Date(2018, 0, 1, 24, 0, 0, 0).getTime();
+dateAxis.strictMinMax = true;
+dateAxis.renderer.tooltipLocation = 0;
+
+var series1 = chart.series.push(new am4charts.ColumnSeries());
+series1.columns.template.width = am4core.percent(80);
+series1.columns.template.tooltipText = "{name}: {openDateX} - {dateX}";
+
+series1.dataFields.openDateX = "fromDate";
+series1.dataFields.dateX = "toDate";
+series1.dataFields.categoryY = "name";
+series1.columns.template.propertyFields.fill = "color"; // get color from data
+series1.columns.template.propertyFields.stroke = "color";
+series1.columns.template.strokeOpacity = 1;
+
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.behavior = "panX";
+</script>
+<script>
+var chart2 = am4core.create("chartdiv2", am4charts.XYChart);
+
+
+var data = [];
+var open = 100;
+var close = 250;
+
+for (var i = 1; i < 366; i++) {
+	open += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 50);
+	close += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 50);
+	data.push({ date: new Date(2018, 0, i), open: open, close: close });
+}
+
+chart2.data = data;
+
+var dateAxis = chart2.xAxes.push(new am4charts.DateAxis());
+dateAxis.renderer.grid.template.location = 0;
+dateAxis.renderer.ticks.template.disabled = true;
+dateAxis.renderer.axisFills.template.disabled = true;
+
+var valueAxis = chart2.yAxes.push(new am4charts.ValueAxis());
+valueAxis.tooltip.disabled = true;
+valueAxis.renderer.ticks.template.disabled = true;
+valueAxis.renderer.axisFills.template.disabled = true;
+
+var series = chart2.series.push(new am4charts.LineSeries());
+series.dataFields.dateX = "date";
+series.dataFields.openValueY = "open";
+series.dataFields.valueY = "close";
+series.tooltipText = "open: {openValueY.value} close: {valueY.value}";
+series.sequencedInterpolation = true;
+series.fillOpacity = 0.3;
+
+var series2 = chart2.series.push(new am4charts.LineSeries());
+series2.dataFields.dateX = "date";
+series2.dataFields.valueY = "open";
+series2.sequencedInterpolation = true;
+series2.stroke = chart2.colors.getIndex(6);
+
+chart2.cursor = new am4charts.XYCursor();
+chart2.cursor.xAxis = dateAxis;
+</script>
+<script>
+var chart3 = am4core.create("chartdiv3", am4charts.XYChart);
+
+
+chart3.paddingRight = 20;
+
+var data = [];
+var visits = 10;
+for (var i = 1; i < 60; i++) {
+    visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
+    data.push({ date: new Date(2018, 0, i), value: visits });
+}
+
+chart3.data = data;
+
+var dateAxis = chart3.xAxes.push(new am4charts.DateAxis());
+dateAxis.renderer.grid.template.location = 0;
+dateAxis.renderer.axisFills.template.disabled = true;
+dateAxis.renderer.ticks.template.disabled = true;
+
+var valueAxis = chart3.yAxes.push(new am4charts.ValueAxis());
+valueAxis.tooltip.disabled = true;
+valueAxis.renderer.minWidth = 35;
+valueAxis.renderer.axisFills.template.disabled = true;
+valueAxis.renderer.ticks.template.disabled = true;
+
+var series = chart3.series.push(new am4charts.StepLineSeries());
+series.dataFields.dateX = "date";
+series.dataFields.valueY = "value";
+series.noRisers = true;
+series.strokeWidth = 2;
+series.fillOpacity = 0.2;
+series.stroke = chart3.colors.getIndex(14);
+series.fill = series.stroke;
+series.sequencedInterpolation = true;
+
+series.tooltipText = "{valueY.value}";
+chart3.cursor = new am4charts.XYCursor();
+
+</script>
+</body>
+</html>

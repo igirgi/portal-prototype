@@ -1,6 +1,11 @@
 am4core.useTheme(am4themes_kelly);
 am4core.useTheme(am4themes_animated);
 
+var palette = document.getElementById("palette").innerHTML;
+var overframe = ovarfield = document.getElementById("overfield"),
+ overd = document.getElementById("overd"),
+ overname = document.getElementById("overname");
+
 var zLevel = 3, cdata = _flter(od, function(v){ return v.z == 10; });
 var detail, dLabel;
 var chart = am4core.createFromConfig(
@@ -26,6 +31,13 @@ var chart = am4core.createFromConfig(
 		}
 		zLevel = z;
 	}
+	,"hit": function(ev) {
+		if(typeof ev.target.dataItem == "undefined"){
+			overframe.style.visibility = "hidden";
+			overname.style.visibility = "hidden";
+			assist.style.visibility = "hidden";
+		}
+	}	
   },
   // Create polygon series
   "series": [
@@ -45,9 +57,7 @@ var chart = am4core.createFromConfig(
 			"latitude": "lat",
 			"longitude": "lon",
 		},
-		"tooltipHTML": "<center><strong>{name}</center></strong>"
-			+"<img src='images/{t}Stat.jpg'>"
-		,
+		 "tooltipHTML": "<center><strong>{name}</strong></center>", 
 		"nonScaling": true,
 		"children":[
 			{
@@ -56,41 +66,30 @@ var chart = am4core.createFromConfig(
 					"href": "img",
 					"width": "size",
 					"height": "size"
-				},
+				},	
 				"horizontalCenter": "middle",
 				"verticalCenter": "middle",
 				"events":{
-					"over":function(ev, a, b, c){
-						var sw = document.getElementById("chartdiv").offsetWidth/2;
-						var cw = ev.event.clientX;
-						if(detail == null) {
-							detail = chart.tooltipContainer.createChild(am4core.Container);
-							detail.width = am4core.percent(45);
-							detail.height = am4core.percent(100)
-							var gradient = new am4core.LinearGradient();
-							gradient.addColor(am4core.color("#429184"));
-							gradient.addColor(am4core.color("#235642"));
-							gradient.rotation = -90;
-							detail.background.fill = gradient;
-							detail.background.fillOpacity = 0.2;
-							dLabel = detail.createChild(am4core.Image);	
-							dLabel.align = "center";
-							dLabel.valign = "top";
-							dLabel.width = am4core.percent(100);
-							dLabel.height = am4core.percent(100);
-							dLabel.href = 'images/details.gif';
-						}		
-						detail.align = (cw < sw)?"right":"left";
-						detail.show();
-					},
-					"out":function(ev){
-						detail.hide();
-					},
-					"hit": function(ev) {
+					"doublehit": function(ev) {
 						var q = s1.data[ev.target.dataItem.index];
 						var geop = {latitude: q.lat, longitude: q.lon};
-//						geop = {"latitude": 60., "longitude": 100. }
 						chart.zoomToGeoPoint(geop, 12, true)
+					},
+					"hit": function(ev) {
+						var sw = document.getElementById("chartdiv").offsetWidth/2;
+						var cw = ev.event.clientX;
+						var q = s1.data[ev.target.dataItem.index];
+						if(q.t=="field") overframe = overfield;
+						else  overframe = overd;
+						overframe.style.left = (cw < sw)?"52%":"0px";
+						assist.src="assist.html"
+						assist.style.left = (cw < sw)?"0px":"62%";
+						assist.style.visibility = "visible";
+						overname.style.left = (cw < sw)?"52%":"0px";
+						overname.src="overname.html?name="+ encodeURIComponent(q.name);
+						overname.style.visibility = "visible";
+						overframe.style.visibility = "visible";
+						ev.event.stopImmediatePropagation();
 					}
 				}
 			}
@@ -122,13 +121,7 @@ var chart = am4core.createFromConfig(
 						"category": "category"
 					},
 					"labels":{disabled: true},
-					"ticks": {disabled: true},
-					"slices": {
-						"events":{
-							"over":function(ev){
-								}
-						}
-					}
+					"ticks": {disabled: true},					
 				}],
 				"adapter":{
 					"data": function(data, target) {
@@ -167,8 +160,13 @@ var chart = am4core.createFromConfig(
 
 ,"chartdiv", am4maps.MapChart);
 
+
 var s1 = chart.series.values[1];
 var s2 = chart.series.values[2];
+s1.tooltip.pointerOrientation = "vertical";
+s1.tooltip.label.interactionsEnabled = true;
+s1.tooltip.interactionsEnabled = true;
+
 s1.data = cdata
 s2.data = cdata
 

@@ -1,0 +1,66 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+<style>
+html, body {
+	background-color: #fff;
+	margin: 0;
+	padding: 0;
+}
+#fake {
+ width: 95%;
+height: 95vh;
+margin: 25px 5px 5px 15px;
+border: 1px solid #333;
+font: bold 12px Georgia, serif;
+color: blue;
+text-align: left;
+}
+img {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+</style>
+<script>
+function answer(ev){
+var a = ev.keyCode;
+if( a==191 || a == 13){
+	insertTextAtCursor("\nИзвините, я пока что глуп и необучен. Но ведь это только прототип портала...\n")
+}
+}
+function insertTextAtCursor(text) {
+    var sel, range, html;
+    if (window.getSelection) {
+        sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            range.deleteContents();
+            range.insertNode( document.createTextNode(text) );
+        }
+    } else if (document.selection && document.selection.createRange) {
+        document.selection.createRange().text = text;
+    }
+}
+</script>
+</head>
+<body>
+<center>
+<div id='fake' contenteditable onkeyup="answer(event)">
+<span contenteditable=false>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Здравствуйте, &nbsp;&nbsp;я - робот-помощник.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Вводите команду или ? для получения помощи<i><br><br>></span>
+<span contenteditable=false class="blink_me">|</span>
+</div>
+</center>
+<img src="images/assist.gif" />
+</body>
+</html>
